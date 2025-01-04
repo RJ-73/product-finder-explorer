@@ -18,6 +18,15 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onCompare, isSelected }: ProductCardProps) {
+  // Format price in Indian number system
+  const formatIndianPrice = (price: number) => {
+    return price.toLocaleString('en-IN', {
+      maximumFractionDigits: 2,
+      style: 'currency',
+      currency: 'INR'
+    });
+  };
+
   return (
     <Card className="flex flex-col h-full hover:shadow-lg transition-shadow duration-200">
       <CardContent className="pt-4 flex-grow">
@@ -44,7 +53,7 @@ export function ProductCard({ product, onCompare, isSelected }: ProductCardProps
           </div>
           <span className="text-sm text-gray-600">({product.rating})</span>
         </div>
-        <p className="text-lg font-bold">₹{product.price.toLocaleString('en-IN')}</p>
+        <p className="text-lg font-bold">{formatIndianPrice(product.price)}</p>
         <p className="text-sm text-gray-500 mt-1">{product.category}</p>
       </CardContent>
       <CardFooter>

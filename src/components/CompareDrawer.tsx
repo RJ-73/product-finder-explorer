@@ -15,6 +15,15 @@ interface CompareDrawerProps {
 }
 
 export function CompareDrawer({ products, onRemove }: CompareDrawerProps) {
+  // Format price in Indian number system
+  const formatIndianPrice = (price: number) => {
+    return price.toLocaleString('en-IN', {
+      maximumFractionDigits: 2,
+      style: 'currency',
+      currency: 'INR'
+    });
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -58,7 +67,7 @@ export function CompareDrawer({ products, onRemove }: CompareDrawerProps) {
                   </div>
                   <span className="text-sm text-gray-600">({product.rating})</span>
                 </div>
-                <p className="text-lg font-bold">${product.price.toFixed(2)}</p>
+                <p className="text-lg font-bold">{formatIndianPrice(product.price)}</p>
                 <Button
                   variant="ghost"
                   size="sm"
