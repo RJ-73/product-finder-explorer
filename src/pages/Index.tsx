@@ -1,14 +1,119 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { SearchBar } from "@/components/SearchBar";
+import { Filters } from "@/components/Filters";
+import { ProductCard, type Product } from "@/components/ProductCard";
+import { CompareDrawer } from "@/components/CompareDrawer";
+import { useToast } from "@/components/ui/use-toast";
 
-const Index = () => {
+// Temporary mock data - replace with API call
+const mockProducts: Product[] = [
+  {
+    id: "1",
+    title: "Wireless Earbuds",
+    price: 99.99,
+    rating: 4.5,
+    image: "https://placehold.co/300x300",
+    category: "electronics",
+  },
+  {
+    id: "2",
+    title: "Smart Watch",
+    price: 199.99,
+    rating: 4.0,
+    image: "https://placehold.co/300x300",
+    category: "electronics",
+  },
+  {
+    id: "3",
+    title: "Running Shoes",
+    price: 79.99,
+    rating: 4.8,
+    image: "https://placehold.co/300x300",
+    category: "clothing",
+  },
+];
+
+export default function Index() {
+  const { toast } = useToast();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
+  const [category, setCategory] = useState("all");
+  const [minRating, setMinRating] = useState(0);
+  const [compareProducts, setCompareProducts] = useState<Product[]>([]);
+
+  const handleCompare = (product: Product) => {
+    if (compareProducts.find((p) => p.id === product.id)) {
+      setCompareProducts(compareProducts.filter((p) => p.id !== product.id));
+    } else if (compareProducts.length < 3) {
+      setCompareProducts([...compareProducts, product]);
+    } else {
+      toast({
+        title: "Compare limit reached",
+        description: "You can compare up to 3 products at a time",
+      });
+    }
+  };
+
+  const filteredProducts = mockProducts.filter((product) => {
+    const matchesSearch = product.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesPrice =
+      product.price >= priceRange[0] && product.price <= priceRange[1];
+    const matchesCategory = category === "all" || product.category === category;
+    const matchesRating = product.rating >= minRating;
+
+    return matchesSearch && matchesPrice && matchesCategory && matchesRating;
+  });
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-8">Product Search</h1>
+        
+        <div className="mb-8">
+          <SearchBar onSearch={setSearchQuery} />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <div className="lg:col-span-1">
+            <Filters
+              priceRange={priceRange}
+              onPriceChange={setPriceRange}
+              category={category}
+              onCategoryChange={setCategory}
+              minRating={minRating}
+              onRatingChange={setMinRating}
+            />
+          </div>
+
+          <div className="lg:col-span-3">
+            {filteredProducts.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-500">No products found</p>
+              </div>
+            ) : (
+              <div className="product-grid">
+                {filteredProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onCompare={handleCompare}
+                    isSelected={compareProducts.some((p) => p.id === product.id)}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <CompareDrawer
+          products={compareProducts}
+          onRemove={(product) =>
+            setCompareProducts(compareProducts.filter((p) => p.id !== product.id))
+          }
+        />
       </div>
     </div>
   );
-};
-
-export default Index;
+}
