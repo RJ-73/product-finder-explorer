@@ -10,7 +10,7 @@ const mockProducts: Product[] = [
   {
     id: "1",
     title: "Wireless Earbuds",
-    price: 99.99,
+    price: 7999,
     rating: 4.5,
     image: "https://placehold.co/300x300",
     category: "electronics",
@@ -18,7 +18,7 @@ const mockProducts: Product[] = [
   {
     id: "2",
     title: "Smart Watch",
-    price: 199.99,
+    price: 15999,
     rating: 4.0,
     image: "https://placehold.co/300x300",
     category: "electronics",
@@ -26,7 +26,7 @@ const mockProducts: Product[] = [
   {
     id: "3",
     title: "Running Shoes",
-    price: 79.99,
+    price: 5999,
     rating: 4.8,
     image: "https://placehold.co/300x300",
     category: "clothing",
@@ -36,7 +36,7 @@ const mockProducts: Product[] = [
 export default function Index() {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 100000]);
   const [category, setCategory] = useState("all");
   const [minRating, setMinRating] = useState(0);
   const [compareProducts, setCompareProducts] = useState<Product[]>([]);
@@ -67,9 +67,11 @@ export default function Index() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8">Product Search</h1>
+        <h1 className="text-5xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+          Product Search Engine
+        </h1>
         
         <div className="mb-8">
           <SearchBar onSearch={setSearchQuery} />

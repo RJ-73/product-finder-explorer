@@ -19,7 +19,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onCompare, isSelected }: ProductCardProps) {
   return (
-    <Card className="flex flex-col h-full">
+    <Card className="flex flex-col h-full hover:shadow-lg transition-shadow duration-200">
       <CardContent className="pt-4 flex-grow">
         <div className="aspect-square relative mb-4">
           <img
@@ -44,7 +44,7 @@ export function ProductCard({ product, onCompare, isSelected }: ProductCardProps
           </div>
           <span className="text-sm text-gray-600">({product.rating})</span>
         </div>
-        <p className="text-lg font-bold">${product.price.toFixed(2)}</p>
+        <p className="text-lg font-bold">₹{product.price.toLocaleString('en-IN')}</p>
         <p className="text-sm text-gray-500 mt-1">{product.category}</p>
       </CardContent>
       <CardFooter>
