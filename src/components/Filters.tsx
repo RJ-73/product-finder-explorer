@@ -24,6 +24,15 @@ export function Filters({
   minRating,
   onRatingChange,
 }: FiltersProps) {
+  // Format price in Indian number system
+  const formatIndianPrice = (price: number) => {
+    return price.toLocaleString('en-IN', {
+      maximumFractionDigits: 2,
+      style: 'currency',
+      currency: 'INR'
+    });
+  };
+
   return (
     <div className="space-y-6 p-4 bg-white rounded-lg shadow-sm">
       <div>
@@ -35,8 +44,8 @@ export function Filters({
           onValueChange={(value) => onPriceChange(value as [number, number])}
         />
         <div className="flex justify-between mt-2 text-sm text-gray-600">
-          <span>${priceRange[0]}</span>
-          <span>${priceRange[1]}</span>
+          <span>{formatIndianPrice(priceRange[0])}</span>
+          <span>{formatIndianPrice(priceRange[1])}</span>
         </div>
       </div>
 
