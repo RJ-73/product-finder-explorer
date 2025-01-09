@@ -15,7 +15,7 @@ How to Use
 Clone the repository:
 bash
 Copy code
-git clone https://github.com/your-username/product-finder-explorer.git
+git clone https://github.com/RJ-73/product-finder-explorer.git
 Navigate to the project directory:
 bash
 Copy code
